@@ -8,9 +8,11 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Icon="Images/Logo/logo-small.png"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="350" Width="525">
     
     <Grid>
-        
+        <StackPanel>
+          <TextBlock Text="{Binding Test}"/>
+        </StackPanel>
     </Grid>
 </Window>

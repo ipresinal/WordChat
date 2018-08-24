@@ -2,4 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:WordChat">
     
+    <Color x:Key="BackgroudLight">#efefef</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroudLight}"/>
+
+    <Color x:Key="BackgroudVeryLight">#fafafa</Color>
+    <SolidColorBrush x:Key="BackgroundVeryLightBrush" Color="{StaticResource BackgroudVeryLight}"/>
+
+    <Color x:Key="ForegroundMain">#686868</Color>
+    <SolidColorBrush x:Key="ForegroundMainBrush" Color="{StaticResource ForegroundMain}"/>
+
+    <Color x:Key="ForegroundVeryDark">#000000</Color>
+    <SolidColorBrush x:Key="ForegroundVeryDarkBrush" Color="{StaticResource ForegroundVeryDark}"/>
+    
+    <Color x:Key="ForegroudLight">#ffffff</Color>
+    <SolidColorBrush x:Key="ForegroudLightBrush" Color="{StaticResource ForegroudLight}"/>
+
 </ResourceDictionary>

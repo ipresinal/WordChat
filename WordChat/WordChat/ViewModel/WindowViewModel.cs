@@ -30,6 +30,16 @@ namespace WordChat.ViewModel
         #region Public Properties
 
         /// <summary>
+        ///  The smallest width the window can go to
+        /// </summary>
+        public double WindowMinimumWidth { get; set; } = 400;
+
+        /// <summary>
+        ///  The smallest Height the window can go to
+        /// </summary>
+        public double WindowMinimumHeight { get; set; } = 400;
+
+        /// <summary>
         /// The size of the resize border around the window
         /// </summary>
         public int ResizeBorder { get; set; } = 6;
@@ -40,6 +50,14 @@ namespace WordChat.ViewModel
         public Thickness ResizeBorderThickness
         {
             get { return new Thickness(ResizeBorder + OuterMarginSize); }
+        }
+
+        /// <summary>
+        /// The padding of the inner content of the main window
+        /// </summary>
+        public Thickness InnerContentPadding
+        {
+            get { return new Thickness(ResizeBorder); }
         }
 
         /// <summary>
@@ -127,6 +145,9 @@ namespace WordChat.ViewModel
             MaximizeCmd = new RelayCommand(action => { _mWindow.WindowState ^= WindowState.Maximized; });
             CloseCmd = new RelayCommand(action => { _mWindow.Close(); });
             MenuCmd = new RelayCommand(action => { SystemCommands.ShowSystemMenu(_mWindow, GetMousePosition()); });
+
+            // Fix window resize issue
+            var resizer = new WindowResizer(_mWindow);
         }
 
         #endregion

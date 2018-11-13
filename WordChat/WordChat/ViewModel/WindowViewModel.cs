@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Input;
 
 namespace WordChat.ViewModel
 {
@@ -15,16 +11,93 @@ namespace WordChat.ViewModel
         #region Private Member
 
         /// <summary>
-        /// The window this view model controls
+        /// The Window this view Model Controls
         /// </summary>
-        private Window mWindow;
+        private Window _mWindow;
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        private int _mOuterMarginSize = 10;
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        private int _mWindowRadius = 10;
 
         #endregion
 
-
         #region Public Properties
 
-        public string Test { get; set; } = "MyString";
+        /// <summary>
+        /// The size of the resize border around the window
+        /// </summary>
+        public int ResizeBorder { get; set; } = 6;
+
+        /// <summary>
+        /// The size of the resize border around the window, taking into account the outer margin
+        /// </summary>
+        public Thickness ResizeBorderThickness
+        {
+            get { return new Thickness(ResizeBorder + OuterMarginSize); }
+        }
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public int OuterMarginSize
+        {
+            get { return _mWindow.WindowState == WindowState.Maximized ? 0 : _mOuterMarginSize; }
+            set { _mOuterMarginSize = value; }
+        }
+
+        /// <summary>
+        /// The margin around the window to allow for a drop shadow
+        /// </summary>
+        public Thickness OuterMarginSizeThickness
+        {
+            get { return new Thickness(OuterMarginSize); }
+        }
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public int WindowRadius
+        {
+            get { return _mWindow.WindowState == WindowState.Maximized ? 0 : _mWindowRadius; }
+            set { _mWindowRadius = value; }
+        }
+
+        /// <summary>
+        /// The radius of the edges of the window
+        /// </summary>
+        public CornerRadius WindowCornerRadius
+        {
+            get { return new CornerRadius(WindowRadius); }
+        }
+
+        /// <summary>
+        /// The Height of the title bar / caption of the window
+        /// </summary>
+        public int TitleHeight { get; set; } = 42;
+
+        /// <summary>
+        /// The height of the title bar / caption of the window
+        /// </summary>
+        public GridLength TitleHeightGridLength
+        {
+            get { return new GridLength(TitleHeight + ResizeBorder); }
+        }
+
+
+        #endregion
+
+        #region Commands
+
+        public ICommand MinimizeCmd { get; set; }
+        public ICommand MaximizeCmd { get; set; }
+        public ICommand CloseCmd { get; set; }
+        public ICommand MenuCmd { get; set; }
 
         #endregion
 
@@ -37,7 +110,36 @@ namespace WordChat.ViewModel
         /// <param name="window"></param>
         public WindowViewModel(Window window)
         {
-            mWindow = window;
+            _mWindow = window;
+
+            //Listen out for the window resizing
+            _mWindow.StateChanged += (Sender, e) =>
+            {
+                // Fire off events for all properties that are affected by a resize
+                OnPropertyChanged("ResizeBorderThickness");
+                OnPropertyChanged("OuterMarginSize");
+                OnPropertyChanged("OuterMarginSizeThickness");
+                OnPropertyChanged("WindowRadius");
+                OnPropertyChanged("WindowCornerRadius");
+            };
+
+            MinimizeCmd = new RelayCommand(action => { _mWindow.WindowState = WindowState.Minimized; });
+            MaximizeCmd = new RelayCommand(action => { _mWindow.WindowState ^= WindowState.Maximized; });
+            CloseCmd = new RelayCommand(action => { _mWindow.Close(); });
+            MenuCmd = new RelayCommand(action => { SystemCommands.ShowSystemMenu(_mWindow, GetMousePosition()); });
+        }
+
+        #endregion
+
+        #region Private Helpers
+
+
+        private Point GetMousePosition()
+        {
+            //var position = Mouse.GetPosition(_mWindow);
+            //return new Point(position.X + _mWindow.Left, position.Y + _mWindow.Top);
+
+            return _mWindow.PointToScreen(Mouse.GetPosition(_mWindow));
         }
 
         #endregion

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace WordChat.ViewModel.Base
+namespace WordChat
 {
     public class EventArgs<T>  : EventArgs
     {

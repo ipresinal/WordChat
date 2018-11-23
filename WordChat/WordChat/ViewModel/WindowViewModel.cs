@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 
 namespace WordChat
-{
+{   
     /// <summary>
     /// The View Model for the custom flat window
     /// </summary>
@@ -80,7 +80,10 @@ namespace WordChat
         /// </summary>
         public int OuterMarginSize
         {
-            get { return _mWindow.WindowState == WindowState.Maximized ? 0 : _mOuterMarginSize; }
+            get
+            {                              
+                return Borderless ? 0 : _mOuterMarginSize;
+            }
             set { _mOuterMarginSize = value; }
         }
 

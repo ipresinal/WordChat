@@ -9,12 +9,9 @@
       Title="LoginPage">
    
 
-    <Border Background="{StaticResource WordBlueBrush}">
+    
         <Grid>
-            <!-- Blue background image -->
-            <Grid.Background>
-                <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 500 500" ImageSource="/Images/Backgrounds/emoji-background.png"/>
-            </Grid.Background>
+            
 
             <!-- Main content scroll -->
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -44,7 +41,7 @@
                             <TextBox Tag="Email"/>
 
                             <!-- Password -->
-                            <TextBox Tag="Password" Margin="0 0 0 30"/>
+                            <PasswordBox Tag="Password" Margin="0 0 0 30"/>
 
                             <!-- Next button -->
                             <Button Content="Next" HorizontalAlignment="Center">
@@ -67,5 +64,5 @@
         </Grid>
 
 
-    </Border>
+    
 </Page>

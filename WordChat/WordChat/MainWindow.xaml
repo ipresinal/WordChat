@@ -14,7 +14,6 @@
         Title="Welcome, friend!" Height="600" Width="900">
 
     <Window.Resources>
-
         <Style  TargetType="{x:Type local:MainWindow}">
             <Setter Property="Template">
                 <Setter.Value>

@@ -10,8 +10,14 @@ namespace WordChat
     /// <typeparam name="Parent">The parent class to use the attached property</typeparam>
     /// <typeparam name="Property">The type of this attached property</typeparam>
     public abstract class BaseAttachedProperty<Parent,Property>
-    where Parent : new()
+    where Parent : BaseAttachedProperty<Parent, Property>, new()
     {
+        #region Public Events
+
+        public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (sender, e) => { };
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -35,7 +41,11 @@ namespace WordChat
         /// <param name="e">The arguments for the event</param>
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            
+            // Call the parent function
+            Instance.OnValueChanged(d, e);
+
+            // Call event listeners
+            Instance.ValueChanged(d, e);
         }
 
         /// <summary>
@@ -52,6 +62,18 @@ namespace WordChat
         /// <param name="value">The value to set the property to</param>
         public static void SetValue(DependencyObject d, Property value) => d.SetValue(ValueProperty, value);
         #endregion
+
+        #region Event Methods
+
+        /// <summary>
+        /// The method is called when any attached property of this type is changed
+        /// </summary>
+        /// <param name="sender">The UI Element that this property was changed for</param>
+        /// <param name="e">The arguments for this event</param>
+        public virtual void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) { }
+
+        #endregion
+
     }
 
    

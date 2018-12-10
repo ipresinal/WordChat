@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
 
 namespace WordChat
 {
@@ -39,7 +40,7 @@ namespace WordChat
         public BasePage()
         {
             // if we are animating in, hide to begin with
-            if(PageLoadAnimation != PageAnimation.None)
+            if(PageLoadAnimation == PageAnimation.None)
             {
                 Visibility = Visibility.Collapsed;
             }
@@ -65,7 +66,7 @@ namespace WordChat
 
         public async Task AnimateIn()
         {
-            if (PageLoadAnimation != PageAnimation.None)
+            if (PageLoadAnimation == PageAnimation.None)
             {
                 return;
             }
@@ -75,23 +76,8 @@ namespace WordChat
                 
                 case PageAnimation.SlideAndFadeInFromRight:
 
-                    var sb = new Storyboard();
-                    var slideAnimation = new ThicknessAnimation
-                    {
-                        Duration = new Duration(TimeSpan.FromSeconds(SlideSeconds)),
-                        From=new Thickness(WindowWidth, 0, -WindowWidth,0),
-                        To = new Thickness(0),
-                        DecelerationRatio = 0.9f
-                    };
-
-                    Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("Margin"));
-                    sb.Children.Add(slideAnimation);
-
-                    sb.Begin(this);
-
-                    Visibility = Visibility.Visible;
-
-                    await Task.Delay((int)(SlideSeconds * 1000));
+                    // Start the animation
+                    await this.SlideAndFadeInFromRight(SlideSeconds);
 
                     break;
 
@@ -99,8 +85,34 @@ namespace WordChat
             }
         }
 
+        /// <summary>
+        /// Animates the page out
+        /// </summary>
+        /// <returns></returns>
+        public async Task AnimateOut()
+        {
+            if (PageUnLoadAnimation == PageAnimation.None)
+            {
+                return;
+            }
+
+            switch (PageUnLoadAnimation)
+            {
+
+                case PageAnimation.SlideAndFadeOutToLeft:
+
+                    // Start the animation
+                    await this.SlideAndFadeOutToLeft(SlideSeconds);
+
+                    break;
+
+
+            }
+        }
+
         #endregion
 
+ 
 
 
 

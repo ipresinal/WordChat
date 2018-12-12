@@ -156,11 +156,7 @@ namespace WordChat
             _mWindow.StateChanged += (Sender, e) =>
             {
                 // Fire off events for all properties that are affected by a resize
-                OnPropertyChanged("ResizeBorderThickness");
-                OnPropertyChanged("OuterMarginSize");
-                OnPropertyChanged("OuterMarginSizeThickness");
-                OnPropertyChanged("WindowRadius");
-                OnPropertyChanged("WindowCornerRadius");
+                WindowResized();
             };
 
             MinimizeCmd = new RelayCommand(action => { _mWindow.WindowState = WindowState.Minimized; });
@@ -168,14 +164,30 @@ namespace WordChat
             CloseCmd = new RelayCommand(action => { _mWindow.Close(); });
             MenuCmd = new RelayCommand(action => { SystemCommands.ShowSystemMenu(_mWindow, GetMousePosition()); });
 
+
             // Fix window resize issue
             var resizer = new WindowResizer(_mWindow);
+
+            resizer.WindowDockChanged += (dock) =>
+            {
+                _mDockPosition = dock;
+
+                WindowResized();
+            };
         }
 
         #endregion
 
         #region Private Helpers
 
+        private void WindowResized()
+        {
+            OnPropertyChanged("ResizeBorderThickness");
+            OnPropertyChanged("OuterMarginSize");
+            OnPropertyChanged("OuterMarginSizeThickness");
+            OnPropertyChanged("WindowRadius");
+            OnPropertyChanged("WindowCornerRadius");
+        }
 
         private Point GetMousePosition()
         {

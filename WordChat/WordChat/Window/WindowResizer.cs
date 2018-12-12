@@ -72,6 +72,15 @@ namespace WordChat
 
         #endregion
 
+        #region Public Events
+
+        /// <summary>
+        /// Called when the window dock position changes
+        /// </summary>
+        public event Action<WindowDockPosition> WindowDockChanged = (dock) => { };
+
+        #endregion
+
         #region Constructor
 
         /// <summary>

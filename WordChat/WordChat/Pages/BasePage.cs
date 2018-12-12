@@ -10,8 +10,21 @@ namespace WordChat
     /// <summary>
     /// A base page for all pages to gain base functionality
     /// </summary>
-    public class BasePage : Page
+    public class BasePage<VM> : Page
+    where VM:BaseViewModel, new()
     {
+        #region Private Member
+
+        /// <summary>
+        /// The view model associated with this page
+        /// </summary>
+        private VM _mViewModel;
+
+       
+
+
+
+        #endregion
 
         #region Properties
 
@@ -30,6 +43,25 @@ namespace WordChat
         /// </summary>
         public float SlideSeconds { get; set; } = 0.8f;
 
+        /// <summary>
+        /// The view model associated with this page
+        /// </summary>
+        public VM ViewModel
+        {
+            get { return _mViewModel; }
+            set
+            {
+                // if nothing has changed, return
+                if (_mViewModel == value) return;
+
+                // Update the value
+                _mViewModel = value;
+
+                // Set the data context for this page
+                DataContext = _mViewModel;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -47,6 +79,9 @@ namespace WordChat
 
             // Listen out for the page loading
             Loaded += BasePage_Loaded;
+
+            // Create default view model
+            ViewModel = new VM();
         }
 
         #endregion

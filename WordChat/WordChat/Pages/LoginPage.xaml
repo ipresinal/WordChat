@@ -41,10 +41,10 @@
                             <TextBox Tag="Email"/>
 
                             <!-- Password -->
-                            <PasswordBox Tag="Password" Margin="0 0 0 30"/>
+                            <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30"/>
 
                             <!-- Next button -->
-                            <Button Content="Next" Click="Button_Click" HorizontalAlignment="Center">
+                            <Button Content="Next" Command="{Binding LoginCommand}" CommandParameter="" HorizontalAlignment="Center">
 
                             </Button>
 

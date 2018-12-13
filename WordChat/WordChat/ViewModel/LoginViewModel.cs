@@ -1,4 +1,5 @@
 ﻿using System.Security;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,10 +49,20 @@ namespace WordChat
         /// <param name="window"></param>
         public LoginViewModel()
         {
-                  
-            MenuCmd = new RelayCommand(action => { SystemCommands.ShowSystemMenu(_mWindow, GetMousePosition()); });
+
+            LoginCommand = new RelayParamerizedCmd(async (parameter) => { await Login(parameter);  });
 
            
+        }
+
+        /// <summary>
+        /// Attemps to log the user in
+        /// </summary>
+        /// <param name="parameter">The <see cref="SecureString"/> passed in from the view for the users password</param>
+        /// <returns></returns>
+        public async Task Login(object parameter)
+        {
+            await Task.Delay(500);
         }
 
         #endregion
